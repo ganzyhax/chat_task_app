@@ -50,4 +50,30 @@ class ApiClient {
     }
     return userId;
   }
+
+  Future<String?> login(String username, String password) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('users')
+          .where('username', isEqualTo: username)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.size > 0) {
+        final userDoc = querySnapshot.docs.first;
+        final userData = userDoc.data() as Map<String, dynamic>;
+
+        if (userData['password'] == password) {
+          return userDoc.id;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error signing in: $e');
+      return null;
+    }
+  }
 }

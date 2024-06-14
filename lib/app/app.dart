@@ -1,5 +1,7 @@
 import 'package:chat_task_app/app/screens/chat/bloc/chat_bloc.dart';
 import 'package:chat_task_app/app/screens/chat/chat_screen.dart';
+import 'package:chat_task_app/app/screens/login/bloc/login_bloc.dart';
+import 'package:chat_task_app/app/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +15,9 @@ class ChatApp extends StatelessWidget {
           BlocProvider(
             create: (context) => ChatBloc()..add(ChatLoad()),
           ),
+          BlocProvider(
+            create: (context) => LoginBloc()..add(LoginLoad()),
+          ),
         ],
         child: MaterialApp(
           builder: (BuildContext context, Widget? child) {
@@ -25,7 +30,7 @@ class ChatApp extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           title: 'Chat App',
-          home: ChatScreen(),
+          home: SplashScreen(),
         ));
   }
 }

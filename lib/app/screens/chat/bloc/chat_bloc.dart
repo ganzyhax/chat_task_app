@@ -10,19 +10,21 @@ part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc() : super(ChatInitial()) {
-    var data;
+    var globalUsersData;
+    var userChats;
     on<ChatEvent>((event, emit) async {
       if (event is ChatLoad) {
-        data = await ApiClient().getCollection('users');
-        List generatedColors = generateRandomColors(data.length);
-        for (var i in data) {
-          int index = data.indexOf(i);
+        globalUsersData = await ApiClient().getCollection('users');
+        List generatedColors = generateRandomColors(globalUsersData.length);
+        for (var i in globalUsersData) {
+          int index = globalUsersData.indexOf(i);
           i['color'] = generatedColors[index];
         }
-        emit(ChatLoaded(data: data));
+
+        emit(ChatLoaded(data: globalUsersData));
       }
       if (event is ChatSend) {
-        emit(ChatLoaded(data: data));
+        emit(ChatLoaded(data: globalUsersData));
       }
     });
   }

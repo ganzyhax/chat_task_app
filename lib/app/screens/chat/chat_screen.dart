@@ -12,7 +12,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
     return Scaffold(
-      backgroundColor: AppColors.primaryBackgroundColor,
+      backgroundColor: Colors.white,
       body: BlocBuilder<ChatBloc, ChatState>(
         builder: (context, state) {
           if (state is ChatLoaded) {
@@ -22,22 +22,34 @@ class ChatScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 15,
+                    height: 60,
                   ),
-                  Text('Чаты'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Чаты',
+                        style: TextStyle(color: Colors.black, fontSize: 24),
+                      ),
+                    ],
+                  ),
                   SizedBox(
-                    height: 5,
+                    height: 15,
                   ),
                   CustomTextField(
                     hintText: 'Поиск',
                     controller: searchController,
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 25,
                   ),
                   ListView.separated(
+                      padding: EdgeInsets.all(0),
+                      shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return UserCard(data: state.data);
+                        return UserCard(
+                          data: state.data[index],
+                        );
                       },
                       separatorBuilder: (context, index) {
                         return Container();
