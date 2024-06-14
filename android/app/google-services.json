@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "608352790558",
+    "project_id": "chattaskapp01",
+    "storage_bucket": "chattaskapp01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608352790558:android:359f92fd47411a81f1660f",
+        "android_client_info": {
+          "package_name": "com.example.chat_task_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfSAx0wJ0hn5J8fpC0ls_ckC5VtNLUMoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
