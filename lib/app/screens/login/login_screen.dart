@@ -1,3 +1,4 @@
+import 'package:chat_task_app/app/screens/chat/chat_screen.dart';
 import 'package:chat_task_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:chat_task_app/app/widgets/custom_button.dart';
 import 'package:chat_task_app/app/widgets/custom_snackbar.dart';
@@ -20,14 +21,20 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: AppColors.primaryBackgroundColor,
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state is LoginSuccess) {}
+          if (state is LoginSuccess) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => ChatScreen()),
+                (Route<dynamic> route) => false);
+          }
           if (state is LoginError) {
             CustomSnackbar().showCustomSnackbar(context, state.message, false);
           }
         },
-        child: BlocBuilder<ChatBloc, ChatState>(
+        child: BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
-            if (state is ChatLoaded) {
+            if (state is LoginLoaded) {
               return Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(

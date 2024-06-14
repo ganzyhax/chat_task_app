@@ -22,6 +22,21 @@ class ApiClient {
     }
   }
 
+  Future<void> updateDocumentField(String collectionName, String documentId,
+      Map<String, dynamic> updatedFields) async {
+    try {
+      DocumentReference documentReference =
+          FirebaseFirestore.instance.collection(collectionName).doc(documentId);
+
+      await documentReference.update(updatedFields);
+
+      print('Document field updated successfully!');
+    } catch (e) {
+      print('Error updating document: $e');
+      throw e;
+    }
+  }
+
   Future<Map<String, dynamic>?> getById(
       String collection, String documentId) async {
     DocumentSnapshot snapshot =
@@ -73,6 +88,59 @@ class ApiClient {
       }
     } catch (e) {
       print('Error signing in: $e');
+      return null;
+    }
+  }
+
+  Future<List<DocumentSnapshot>> findChat(
+      String userId, String clientId) async {
+    try {
+      // Query for documents where userId equals userId and clientId equals clientId
+      QuerySnapshot querySnapshot1 = await _firestore
+          .collection('chats')
+          .where('userId', isEqualTo: userId)
+          .where('clientId', isEqualTo: clientId)
+          .get();
+
+      // Query for documents where clientId equals userId and userId equals clientId
+      QuerySnapshot querySnapshot2 = await _firestore
+          .collection('chats')
+          .where('clientId', isEqualTo: userId)
+          .where('userId', isEqualTo: clientId)
+          .get();
+
+      // Combine results from both queries into a single list of DocumentSnapshot
+      List<DocumentSnapshot> documents = [];
+      documents.addAll(querySnapshot1.docs);
+      documents.addAll(querySnapshot2.docs);
+
+      return documents;
+    } catch (e) {
+      print('Error fetching documents: $e');
+      return []; // Return an empty list if there's an error
+    }
+  }
+
+  Future<Map<String, dynamic>?> create(
+    String collectionName,
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      // Add the new document to the specified collection
+      DocumentReference docRef =
+          await FirebaseFirestore.instance.collection(collectionName).add(data);
+
+      // Retrieve the generated document ID
+      String docId = docRef.id;
+
+      // Update the document with the generated ID
+      await docRef.update({'id': docId});
+
+      // Fetch the updated document to return its data
+      DocumentSnapshot docSnapshot = await docRef.get();
+      return docSnapshot.data() as Map<String, dynamic>?;
+    } catch (e) {
+      print('Error adding document: $e');
       return null;
     }
   }

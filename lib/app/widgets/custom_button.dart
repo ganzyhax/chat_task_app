@@ -4,11 +4,13 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final String text;
   final Color? textColor;
+  final bool? isLoading;
   final Function() onTap;
 
   const CustomButton(
       {super.key,
       this.color,
+      this.isLoading,
       required this.text,
       required this.onTap,
       this.textColor});
@@ -23,11 +25,13 @@ class CustomButton extends StatelessWidget {
             color: (color != null) ? color : Colors.black),
         padding: EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
         child: Center(
-            child: Text(
-          text,
-          style:
-              TextStyle(color: (textColor != null) ? textColor : Colors.white),
-        )),
+            child: (isLoading == true)
+                ? CircularProgressIndicator()
+                : Text(
+                    text,
+                    style: TextStyle(
+                        color: (textColor != null) ? textColor : Colors.white),
+                  )),
       ),
     );
   }

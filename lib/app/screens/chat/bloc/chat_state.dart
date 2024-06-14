@@ -7,5 +7,18 @@ final class ChatInitial extends ChatState {}
 
 final class ChatLoaded extends ChatState {
   var data;
-  ChatLoaded({required this.data});
+  final selectedImage;
+  ChatLoaded({
+    required this.data,
+    required this.selectedImage,
+  });
+}
+
+final class ChatLoggedOut extends ChatState {}
+
+final class ChatCreated extends ChatState {
+  final data;
+  ChatCreated({
+    required this.data,
+  });
 }

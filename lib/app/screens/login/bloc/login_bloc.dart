@@ -20,7 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         var res = await ApiClient().login(event.username, event.password);
         if (res != null) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('userId', res);
+          await prefs.setString('userId', res);
           emit(LoginSuccess(message: 'Logged in!'));
         } else {
           emit(LoginError(message: 'Неверный логин или пароль!'));
